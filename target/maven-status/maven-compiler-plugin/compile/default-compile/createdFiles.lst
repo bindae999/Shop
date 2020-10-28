@@ -1,0 +1,14 @@
+mydelivery\OrderCanceled.class
+mydelivery\AbstractEvent$1.class
+mydelivery\config\kafka\KafkaProcessor.class
+mydelivery\external\Delivery.class
+mydelivery\Shop.class
+mydelivery\RequestCanceled.class
+mydelivery\external\DeliveryService.class
+mydelivery\DeliveryRequested.class
+mydelivery\AbstractEvent.class
+mydelivery\ShopRepository.class
+mydelivery\PolicyHandler.class
+mydelivery\ShopController.class
+mydelivery\OrderRequested.class
+mydelivery\ShopApplication.class
