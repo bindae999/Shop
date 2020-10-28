@@ -21,7 +21,7 @@ public class Shop {
         RequestCanceled requestCanceled = new RequestCanceled();
         BeanUtils.copyProperties(this, requestCanceled);
 
-        if(requestCanceled.getOrderStatus().equals("request Cancel")){
+        if("request Cancel".equals(requestCanceled.getOrderStatus())){
             requestCanceled.setOrderStatus(this.getOrderStatus());
             requestCanceled.publishAfterCommit();
         }else{
