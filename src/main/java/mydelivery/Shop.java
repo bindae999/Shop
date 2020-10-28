@@ -16,23 +16,42 @@ public class Shop {
     private Long foodQty;
     private String orderStatus;
 
+    @PostPersist
+    public void onPostPersist(){
+        DeliveryRequested deliveryRequested = new DeliveryRequested();
+        BeanUtils.copyProperties(this, deliveryRequested);
+        deliveryRequested.publishAfterCommit();
+        System.out.println("#######"+this.getOrderStatus());
+        //주문요청이면..
+        if("Order".equals(this.getOrderStatus())) {
+            //Following code causes dependency to external APIs
+            // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+            mydelivery.external.Delivery delivery = new mydelivery.external.Delivery();
+            System.out.println("배달요청 접수(CB test용)!!" + this.getOrderId());
+            delivery.setOrderId(this.getOrderId());
+            delivery.setOrderStatus("Delivery Request");
+
+            // mappings goes here
+            ShopApplication.applicationContext.getBean(mydelivery.external.DeliveryService.class)
+                    .delivery(delivery);
+        }
+    }
+
     @PostUpdate
     public void onPostUpdate(){
         RequestCanceled requestCanceled = new RequestCanceled();
         BeanUtils.copyProperties(this, requestCanceled);
 
+        //주문취소이면..
         if("request Cancel".equals(requestCanceled.getOrderStatus())){
             requestCanceled.setOrderStatus(this.getOrderStatus());
             requestCanceled.publishAfterCommit();
+        //배달요청이면..
         }else{
-            DeliveryRequested deliveryRequested = new DeliveryRequested();
-            BeanUtils.copyProperties(this, deliveryRequested);
-            deliveryRequested.publishAfterCommit();
-
             //Following code causes dependency to external APIs
             // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
             mydelivery.external.Delivery delivery = new mydelivery.external.Delivery();
-            System.out.println("배달요청 접수!!"+this.getOrderId());
+            System.out.println("배달요청 접수!!" + this.getOrderId());
             delivery.setOrderId(this.getOrderId());
             delivery.setOrderStatus("Delivery Request");
 
@@ -41,6 +60,7 @@ public class Shop {
                     .delivery(delivery);
 
         }
+
     }
 
 
