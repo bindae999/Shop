@@ -21,6 +21,12 @@ public class Shop {
         RequestCanceled requestCanceled = new RequestCanceled();
         BeanUtils.copyProperties(this, requestCanceled);
 
+        try {
+            Thread.sleep((long) (400 + Math.random() * 300));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         if(requestCanceled.getOrderStatus().equals("request Cancel")){
             requestCanceled.setOrderStatus(this.getOrderStatus());
             requestCanceled.publishAfterCommit();

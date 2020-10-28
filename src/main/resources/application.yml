@@ -77,3 +77,18 @@ spring:
         event-out:
           destination: mydelivery
           contentType: application/json
+
+
+#PSS : REQ/RES 장애격리 처리
+api:
+  url:
+    Delivery: http://delivery:8080
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 680
