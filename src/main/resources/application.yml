@@ -82,7 +82,8 @@ spring:
 #PSS : REQ/RES 장애격리 처리
 api:
   url:
-    Delivery: http://delivery:8080
+    #Delivery: http://delivery:8080
+    Delivery: ${configurl}
 
 feign:
   hystrix:
